@@ -18,7 +18,20 @@ COLUMNS = [
 def write_to_bt_http(request):
     req = json.loads(request.form['json'])
     row_key = insert_to_bt(req)
-    return ('Inserted row_key `%s` to BigTable successfully' % row_key, 200)
+
+    if request.method == 'POST':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+
+    headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
+
+    return ('Inserted row_key `%s` to BigTable successfully' % row_key, 200, headers)
 
 
 def insert_to_bt(request):
